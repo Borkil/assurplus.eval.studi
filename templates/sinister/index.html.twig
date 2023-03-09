@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AssurPlus - Déclaration de sinistre{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <h1 class="my-4">Déclarer votre sinistre</h1>
+
+    {# display a flash message #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible alert-{{ label }}">
+                <p> {{ message }} </p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# display form #}
+    <div>
+        {{ form(form) }}
+    </div>
+</div>
+{% endblock %}
