@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sinister;
 use App\Form\DeclarationSinisterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SinisterController extends AbstractController
 {
     #[Route('/declaration', name: 'form_sinister')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sinister = new Sinister();
 
@@ -22,7 +23,12 @@ class SinisterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $sinister = $form->getData();
+            $entityManager->persist($sinister);
+            $entityManager->flush();
+            
+
             $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
+
 
         }else if($form->isSubmitted() && !$form->isValid())
         {
