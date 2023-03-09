@@ -67,4 +67,13 @@ class SinisterTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setNumberRegistration('xx123-xx'),1);
         $this->assertHasErrors($this->getEntity()->setNumberRegistration('xx123xx'),1);
     }
+
+    public function testIsValid_FormatNumbreRegistration_SinisterEntity(): void
+    {
+        $this->assertHasErrors($this->getEntity()->setNumberRegistration('xx-123-xx'),0);
+        $this->assertHasErrors($this->getEntity()->setNumberRegistration('Xx-123-xX'),0);
+        $this->assertHasErrors($this->getEntity()->setNumberRegistration('XX-123-xx'),0);
+        $this->assertHasErrors($this->getEntity()->setNumberRegistration('xx-123-XX'),0);
+        $this->assertHasErrors($this->getEntity()->setNumberRegistration('XX-123-XX'),0);
+    }
 }

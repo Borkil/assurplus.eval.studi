@@ -31,10 +31,9 @@ class Sinister
     #[ORM\Column(length: 9)]
     #[Assert\NotBlank(message : 'le numéro de plaque ne peut être vide')]
     #[Assert\Regex(
-        pattern:'/^[a-zA_Z]{3}[-][0-9]{3}[-][a-zA_Z]{3}/',
+        pattern:'/[a-zA-Z]{2}[-][0-9]{3}[-][a-zA-Z]{2}/',
         message : 'Le numéro de plaque d\'immatriculation doit être au formmat aa-111-aa')]
     private ?string $numberRegistration = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
