@@ -28,7 +28,7 @@ class SinisterController extends AbstractController
             
 
             $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
-
+            return $this->redirectToRoute('app_home_page');
 
         }else if($form->isSubmitted() && !$form->isValid())
         {

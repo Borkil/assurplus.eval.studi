@@ -2,13 +2,17 @@
 
 namespace App\Tests;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DeclarationSinisterTypeTest extends WebTestCase
+class SinisterControllerTest extends WebTestCase
 {
 
 
-    function getSubmittingForm(string $adress, string $description, $numberRegistration)
+    function getSubmittingForm(
+        string $adress = '13 boulevard du test 16780 test', 
+        string $description = 'je suis une description valide de plus de 20 caractères', 
+        string $numberRegistration = 'xx-123-xx')
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/declaration');
@@ -19,6 +23,7 @@ class DeclarationSinisterTypeTest extends WebTestCase
             'declaration_sinister[numberRegistration]' => $numberRegistration
         ]);
     }
+    
     
     /** 
      * @return void
@@ -45,25 +50,19 @@ class DeclarationSinisterTypeTest extends WebTestCase
         $this->assertSelectorExists('#declaration_sinister_valider');
     }
 
-    // tester l'affichage d'un messages success
 
-    public function testDisplayMessageIfSubmitIsOk(): void
+
+    public function testShould_RedirectToHomePage_When_submitValidSinisterDeclarationType(): void
     {
-        //soumettre le formulaire avec de bonne valeur
-        $this->getSubmittingForm(
-            '13 boulevard du test 16470 testville', 
-            'je suis rentré dans une autre voiture test avec ma voiture et badaboum',
-            'xx-123-xx'
-        );
-        
-        $this->assertSelectorTextContains('p', 'Votre déclaration nous a bien été transmise');
+        $this->getSubmittingForm();
+        $this->assertResponseRedirects('/', Response::HTTP_FOUND);
     }
 
     // tester l'affichage d'un messages danger
 
-    public function testDisplayMessageIfSubmitIsNotOk(): void
+    public function testShould_DisplayADangerMessage_When_submitInvalidSinisterDeclarationType(): void
     {
-        //soumettre le formulaire avec de bonne valeur
+        //soumettre le formulaire avec de mauvaises valeurs
         $this->getSubmittingForm(
             '13 boulevard du test 16470 testville', 
             'je suis rentré dans une autre voiture test avec ma voiture et badaboum',
@@ -73,10 +72,28 @@ class DeclarationSinisterTypeTest extends WebTestCase
         $this->assertSelectorTextContains('p', 'Il y a des erreurs dans la saisi du formulaire.');
     }
 
+    public function testShould_DisplayASuccessMessage_When_submitValidSinisterDeclarationType(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/declaration');
+        $client->submitForm('Valider',[
+            'declaration_sinister[adressOfSinister]' => '13 boulevard du test 16470 testville',
+            'declaration_sinister[description]' => 'je suis rentré dans une autre voiture test avec ma voiture et badaboum',
+            'declaration_sinister[numberRegistration]' => 'xx-123-xx'
+        ]);
+        $crawler = $client->followRedirect();
+
+        $this->assertSelectorTextContains('p', 'Votre déclaration nous a bien été transmise');
+    }
+
+    public function testShould_RedirectToHomePage_When_ClickOnCancelButton(): void
+    {  
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/declaration');
+        $client->clickLink('Annuler');
+
+        $this->assertResponseRedirects('/', Response::HTTP_FOUND);
+    }
+
 
 }
-
-
-// 'declaration_sinister[adressOfSinister]' => '13 boulevard du test 16470 testville',
-//             'declaration_sinister[description]' => 'je suis rentré dans une autre voiture test avec ma voiture et badaboum',
-//             'declaration_sinister[numberRegistration]' => 'xx-123-xx'

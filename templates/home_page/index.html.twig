@@ -5,6 +5,16 @@
 {% block body %}
 <div class="container">
   <h1 class="mb-4">Hello tout les gens</h1>
+  {# display a flash message #}
+
+  {% for label, messages in app.flashes %}
+  {% for message in messages %}
+      <div class="alert alert-dismissible alert-{{ label }}">
+          <p> {{ message }} </p>
+      </div>
+  {% endfor %}
+{% endfor %}
+
   <a class="btn btn-lg btn-primary" type="button" href="{{ path('form_sinister')}}">Déclarer un sinistre</a>
 </div>
   
