@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Sinister;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +21,9 @@ class DeclarationSinisterType extends AbstractType
             ->add('numberRegistration', TextType::class)
             ->add('valider', SubmitType::class,[
                 'label' => 'Valider'
+            ])
+            ->add('cancel', ButtonType::class, [
+                'label' => 'Annuler'
             ])
             ;
     }
