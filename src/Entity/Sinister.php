@@ -37,7 +37,9 @@ class Sinister
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-        
+    #[ORM\ManyToOne(inversedBy: 'sinisters')]
+    private ?Customer $customer = null;
+    
     /**
      * __construct
      *
@@ -97,6 +99,18 @@ class Sinister
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
