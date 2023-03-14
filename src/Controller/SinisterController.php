@@ -25,6 +25,7 @@ class SinisterController extends AbstractController
         {
             $sinister = $form->getData();
             $entityManager->persist($sinister);
+            
             $entityManager->flush();
             
 
