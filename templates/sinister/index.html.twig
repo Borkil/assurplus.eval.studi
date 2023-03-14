@@ -17,8 +17,20 @@
     {% endfor %}
 
     {# display form #}
-    <div>
-        {{ form(form) }}
-    </div>
+    
+    {{ form_start(form) }}
+        {{ form_row(form.adressOfSinister) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.numberRegistration) }}
+        <div class="form-group d-flex">
+            {{ form_row(form.submit) }}
+            <div class="mb-3">
+                <a href="/" class="mx-3 btn btn-secondary" id="declaration_sinister_cancel">Annuler<a>
+            </div>
+        </div>
+    {{ form_end(form) }}
+    
 </div>
+
+    
 {% endblock %}

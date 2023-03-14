@@ -19,11 +19,8 @@ class DeclarationSinisterType extends AbstractType
             ->add('adressOfSinister', TextType::class)
             ->add('description', TextareaType::class)
             ->add('numberRegistration', TextType::class)
-            ->add('valider', SubmitType::class,[
+            ->add('submit', SubmitType::class,[
                 'label' => 'Valider'
-            ])
-            ->add('cancel', ButtonType::class, [
-                'label' => 'Annuler'
             ])
             ;
     }
