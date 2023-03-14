@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeImmutable;
 use App\Entity\Sinister;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,10 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[UniqueEntity('numberCustomer')]
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
@@ -19,7 +21,7 @@ class Customer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 6)]
+    #[ORM\Column(length: 6, unique: true)]
     #[Assert\NotBlank(message:'Le numéro client ne peut pas être vide.')]
     #[Assert\Regex(
         pattern: '/[a-zA-Z0-9]{6}/',
