@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[UniqueEntity('numberCustomer')]
+
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
@@ -21,7 +21,7 @@ class Customer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 6, unique: true)]
+    #[ORM\Column(length: 6)]
     #[Assert\NotBlank(message:'Le numéro client ne peut pas être vide.')]
     #[Assert\Regex(
         pattern: '/[a-zA-Z0-9]{6}/',

@@ -18,7 +18,7 @@
 
     {# display form #}
     
-    {{ form_start(form) }}
+    {# {{ form_start(form) }}
         {{ form_row(form.adressOfSinister) }}
         {{ form_row(form.description) }}
         {{ form_row(form.numberRegistration) }}
@@ -28,7 +28,9 @@
                 <a href="/" class="mx-3 btn btn-secondary" id="declaration_sinister_cancel">Annuler<a>
             </div>
         </div>
-    {{ form_end(form) }}
+    {{ form_end(form) }} #}
+
+    {{form(form)}}
     
 </div>
 
