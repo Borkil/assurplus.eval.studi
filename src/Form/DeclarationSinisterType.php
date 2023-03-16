@@ -16,29 +16,15 @@ use Symfony\Component\Form\Test\FormBuilderInterface as TestFormBuilderInterface
 
 class DeclarationSinisterType extends AbstractType
 {
-    // public function buildForm(FormBuilderInterface $builder, array $options): void
-    // {
-    //     $builder
-    //         ->add('adressOfSinister', TextType::class)
-    //         ->add('description', TextareaType::class)
-    //         ->add('numberRegistration', TextType::class)
-    //         ->add('submit', SubmitType::class,[
-    //             'label' => 'Valider'
-    //         ])
-    //         ;
-    // }
-    // public function configureOptions(OptionsResolver $resolver): void
-    // {
-    //     $resolver->setDefaults([
-    //         'data_class' => Sinister::class,
-    //     ]);
-    // }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('customerPart', CustomerType::class)
-            ->add('sinisterPart', SinisterType::class)
+            ->add('customerPart', CustomerType::class, [
+                'label' => 'Information du client'
+            ])
+            ->add('sinisterPart', SinisterType::class, [
+                'label' => 'Information sur le sinsitre '
+            ])
             ->add('submit', SubmitType::class);
     }
 
