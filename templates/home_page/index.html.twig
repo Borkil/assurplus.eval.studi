@@ -3,8 +3,12 @@
 {% block title %}Welcome AssurPlus{% endblock %}
 
 {% block body %}
-<div class="container">
-  <h1 class="mb-4">Hello tout les gens</h1>
+<div class="container d-flex flex-column justify-content-center">
+  <h1 class="mt-4 mb-2">Bienvenue sur Assurplus</h1>
+
+  <p class="mb-2">Vous venez d'avoir un accident de voiture? Vous êtes assuré chez AssurPlus?
+    Déclarez votre sinistre facilement et rapidement.
+  </p>
   {# display a flash message #}
 
   {% for label, messages in app.flashes %}
@@ -15,7 +19,7 @@
   {% endfor %}
 {% endfor %}
 
-  <a class="btn btn-lg btn-primary" type="button" href="{{ path('form_sinister')}}">Déclarer un sinistre</a>
+  <a class="btn btn-primary" type="button" href="{{ path('form_sinister')}}">Déclarer un sinistre</a>
 </div>
   
 {% endblock %}
