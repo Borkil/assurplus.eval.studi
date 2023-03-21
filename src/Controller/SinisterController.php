@@ -31,16 +31,15 @@ class SinisterController extends AbstractController
             $entityManager->persist($sinister);
 
             //récupere les données du customer
-            //controle si il existe ou pas en bdd
-
             $customer = new Customer();
             $customer = $form->getData()['customerPart'];
 
+            //controle si il existe ou pas en bdd
             $testEntityIsUnique = $entityManager->getRepository(Customer::class)->findOneBy(['numberCustomer' => $customer->getNumberCustomer()]);
 
             if($testEntityIsUnique){
-                // met à jour customer en bdd
-                // ajoute le sinistre à la collection
+                // si customer existe deja alors il met à jour customer en bdd
+                // et ajoute le sinistre à la collection
                 $testEntityIsUnique
                     ->setFirstname($customer->getFirstname())
                     ->setLastname($customer->getLastname())
