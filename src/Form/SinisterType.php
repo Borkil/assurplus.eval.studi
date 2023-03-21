@@ -26,7 +26,8 @@ class SinisterType extends AbstractType
             ])
             ->add('imagesFiles', FileType::class, [
                 'required'=> true,
-                'multiple'=> true
+                'multiple'=> true,
+                'label' => 'Uploader des photos'
             ])
         ;
     }
