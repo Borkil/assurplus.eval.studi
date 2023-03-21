@@ -22,7 +22,6 @@ class SinisterController extends AbstractController
     {
         $form = $this->createForm(DeclarationSinisterType::class);
         $form->handleRequest($request);
-
        
         if($form->isSubmitted() && $form->isValid())
         {

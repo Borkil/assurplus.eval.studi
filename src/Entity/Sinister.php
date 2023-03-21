@@ -44,7 +44,8 @@ class Sinister
 
     #[ORM\OneToMany(mappedBy: 'sinister', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $Images;
-    
+
+    #[Assert\Count(max: 3, maxMessage: 'Le nombre de photo est limité à {{ limit }}')]
     #[Assert\All([
         new Assert\Image(mimeTypesMessage: 'Le fichier join n\'est pas une image')
     ])]
