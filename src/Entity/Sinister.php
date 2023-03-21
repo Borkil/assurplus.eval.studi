@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\SinisterRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,6 +41,14 @@ class Sinister
 
     #[ORM\ManyToOne(inversedBy: 'sinisters')]
     private ?Customer $customer = null;
+
+    #[ORM\OneToMany(mappedBy: 'sinister', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $Images;
+    
+    #[Assert\All([
+        new Assert\Image(mimeTypesMessage: 'Le fichier join n\'est pas une image')
+    ])]
+    private $imagesFiles;
     
     /**
      * __construct
@@ -48,6 +58,7 @@ class Sinister
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->Images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +123,52 @@ class Sinister
     {
         $this->customer = $customer;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
+    {
+        return $this->Images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->Images->contains($image)) {
+            $this->Images->add($image);
+            $image->setSinister($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->Images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getSinister() === $this) {
+                $image->setSinister(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImagesFiles()
+    {
+        return $this->imagesFiles;
+    }
+
+    public function setImagesFiles($imagesFiles): self
+    {
+        foreach ($imagesFiles as $imageFile ) {
+            $image = new Images();
+            $image->setImageFile($imageFile);
+            $this->addImage($image);
+        }
+        $this->imagesFiles = $imagesFiles;
         return $this;
     }
 }
