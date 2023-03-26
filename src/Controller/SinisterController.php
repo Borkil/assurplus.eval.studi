@@ -47,10 +47,10 @@ class SinisterController extends AbstractController
                 $entityManager->flush();
 
                 $email = (new TemplatedEmail())
-                    ->from('test@test.fr')
-                    ->to('assurplus@assurplus.fr')
+                    ->from('admin@assurplus.fr')
+                    ->to('francois.lalay@hotmail.fr')
                     ->subject('test envoie mail')
-                    ->htmlTemplate('<email/email.html.twig')
+                    ->htmlTemplate('email/email.html.twig')
                     ->context([
                         'sinister' => $sinister
                     ]);
