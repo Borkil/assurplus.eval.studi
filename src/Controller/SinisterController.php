@@ -3,22 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
-use App\Entity\Sinister;
-use App\Form\CustomerType;
-use App\Form\SinisterType;
 use App\Form\DeclarationSinisterType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Mailer\MailerInterface;
 
 class SinisterController extends AbstractController
 {
     
     #[Route('/declaration', name: 'form_sinister')]
-    public function index(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $form = $this->createForm(DeclarationSinisterType::class);
         $form->handleRequest($request);
@@ -47,6 +45,17 @@ class SinisterController extends AbstractController
                     ->addSinister($sinister);
 
                 $entityManager->flush();
+
+                $email = (new TemplatedEmail())
+                    ->from('test@test.fr')
+                    ->to('assurplus@assurplus.fr')
+                    ->subject('test envoie mail')
+                    ->htmlTemplate('<email/email.html.twig')
+                    ->context([
+                        'sinister' => $sinister
+                    ]);
+
+                $mailer->send($email);    
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
                 return $this->redirectToRoute('app_home_page');
