@@ -56,14 +56,17 @@ class SinisterController extends AbstractController
                     ->subject('test envoie mail')
                     ->htmlTemplate('email/email.html.twig')
                     ->context([
-                        'sinister' => $sinister
+                        'sinister' => $sinister,
+                        'customer' => $testEntityIsUnique
                     ]);
                 
                 foreach ($images as $image)
                 {
                     $email->addPart(new DataPart(new File($image->getImageFile()->getRealPath())));
                 }
-                $mailer->send($email);    
+
+
+                $mailer->send($email);
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
                 return $this->redirectToRoute('app_home_page');
@@ -74,6 +77,24 @@ class SinisterController extends AbstractController
                 $customer->addSinister($sinister);
                 $entityManager->persist($customer);
                 $entityManager->flush();
+
+                $email = (new TemplatedEmail())
+                    ->from('admin@assurplus.fr')
+                    ->to('francois.lalay@hotmail.fr')
+                    ->subject('test envoie mail')
+                    ->htmlTemplate('email/email.html.twig')
+                    ->context([
+                        'sinister' => $sinister,
+                        'customer' => $customer
+                    ]);
+                
+                foreach ($images as $image)
+                {
+                    $email->addPart(new DataPart(new File($image->getImageFile()->getRealPath())));
+                }
+
+
+                $mailer->send($email);
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
                 return $this->redirectToRoute('app_home_page');
