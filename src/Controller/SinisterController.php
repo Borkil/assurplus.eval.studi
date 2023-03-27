@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Form\DeclarationSinisterType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
 
 class SinisterController extends AbstractController
 {
@@ -26,6 +28,8 @@ class SinisterController extends AbstractController
             //récupere les données du sinsitre et les persist
             $sinister = $form->getData()['sinisterPart'];
             $entityManager->persist($sinister);
+            $images = $sinister->getImages();
+            dd($images);
 
             //récupere les données du customer
             $customer = new Customer();
@@ -54,7 +58,11 @@ class SinisterController extends AbstractController
                     ->context([
                         'sinister' => $sinister
                     ]);
-
+                
+                foreach ($images as $image)
+                {
+                    $email->addPart(new DataPart(new File($image->getImageFile()->getRealPath())));
+                }
                 $mailer->send($email);    
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
