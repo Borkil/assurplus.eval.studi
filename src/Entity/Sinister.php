@@ -61,7 +61,7 @@ class Sinister
     {
         $this->createdAt = new DateTimeImmutable();
         $this->Images = new ArrayCollection();
-    }
+   } 
 
     public function getId(): ?int
     {
