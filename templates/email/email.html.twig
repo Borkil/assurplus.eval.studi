@@ -1,1 +1,20 @@
-<h1>Hello mailer!</h1>
+{% apply markdown_to_html %}
+# Voici une déclaration de sinistre
+---
+## Informations sur l'assuré
+- Numéro d'assuré : {{ customer.numberCustomer }}
+- Nom : {{ customer.lastname }}
+- Prénom : {{ customer.firstname }}
+- Email : {{ customer.mail }}
+- Numéro de téléphone: {{ customer.PhoneNumber }}
+
+--- 
+## Information sur le sinistre
+- Date du sinistre : {{ sinister.createdAt | date('d/m/Y')}}
+- Adresse du sinistre : {{ sinister.adressOfSinister }}
+- Déscription du sinsitre : {{ sinister.description }}
+- Numéro de plaque d'immatriculation : {{ sinister.numberRegistration }}
+
+___
+
+{% endapply %}

@@ -68,6 +68,7 @@ class Customer
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'l\'email ne peut pas être vide.')]
     #[Assert\Email(message: 'l\'adresse email {{ value }} n\’est pas une adresse email valide.')]
+    
     private ?string $mail = null;
 
     #[ORM\Column]

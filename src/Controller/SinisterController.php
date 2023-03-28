@@ -29,7 +29,7 @@ class SinisterController extends AbstractController
             $sinister = $form->getData()['sinisterPart'];
             $entityManager->persist($sinister);
             $images = $sinister->getImages();
-            dd($images);
+            // dd($images);
 
             //récupere les données du customer
             $customer = new Customer();

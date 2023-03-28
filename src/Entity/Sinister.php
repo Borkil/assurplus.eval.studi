@@ -36,6 +36,7 @@ class Sinister
         pattern:'/[a-zA-Z]{2}[-][0-9]{3}[-][a-zA-Z]{2}/',
         message : 'Le numéro de plaque d\'immatriculation doit être au formmat aa-111-aa')]
     private ?string $numberRegistration = null;
+    
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
