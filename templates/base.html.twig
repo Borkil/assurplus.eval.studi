@@ -16,7 +16,11 @@
         {% block header %}
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-            <a class="navbar-brand" href="{{ path('app_home_page')}}" style="font-size:24px; font-weight:700">AssurPlus</a>
+                <a class="navbar-brand" href="{{ path('app_home_page')}}" style="font-size:24px; font-weight:700">AssurPlus</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p>Email: {{ app.user.email }}</p>
+                <a class="btn btn-secondary" href="{{ path('app_logout')}}" style="font-size:24px; font-weight:700">Déconnection</a>
+            {% endif %}
             </div>
         </nav>
     {% endblock header %}
