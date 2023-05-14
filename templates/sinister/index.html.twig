@@ -18,24 +18,18 @@
 
     {# display form #}
     {{ form_start(form)}}
-    {{ form_row(form.customerPart.numberCustomer) }}
-    {{ form_row(form.customerPart.firstname) }}
-    {{ form_row(form.customerPart.lastname) }}
-    {{ form_row(form.customerPart.mail) }}
-    {{ form_row(form.customerPart.phoneNumber) }}
-    {{ form_row(form.sinisterPart.adressOfSinister) }}
-    {{ form_row(form.sinisterPart.description) }}
-    {{ form_row(form.sinisterPart.numberRegistration) }}
-    {{ form_row(form.sinisterPart.imagesFiles) }}
-    <div class="form_group d-flex justify-content-between">
-        {{ form_row(form.submit) }}
-        <div class="mb-3">
-            <a href="{{ path('app_home_page')}}" class="btn btn-secondary">Annuler</a>
-        </div>
-    </div>
-    {{ form_end(form)}}
 
-    {# {{form(form)}} #}
+        {{ form_row(form.adressOfSinister) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.numberRegistration) }}
+        {{ form_row(form.imagesFiles) }}
+        <div class="form_group d-flex justify-content-between">
+            {{ form_row(form.submit) }}
+            <div class="mb-3">
+                <a href="{{ path('app_home_page')}}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </div>
+    {{ form_end(form)}}
     
 </div>
 
