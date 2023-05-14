@@ -2,18 +2,18 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Customer;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CustomerTest extends KernelTestCase
+class UserTest extends KernelTestCase
 {
-  public function getEntity(): Customer
+  public function getEntity(): User
   {
-    return (new Customer())
-      ->setNumberCustomer('1x1x1x')
+    return (new User())
+      ->setNumberUser('1x1x1x')
       ->setFirstname('francois')
       ->setLastname('test')
-      ->setMail('francois.test@test.com')
+      ->setEmail('francois.test@test.com')
       ->setPhoneNumber('0672067206');
   }
 
@@ -23,11 +23,11 @@ class CustomerTest extends KernelTestCase
     *charge le service Validator et valide une entité
     *fait un assertCount
     *
-    * @param  Customer $entity - une entité à tester
+    * @param  User $entity - une entité à tester
     * @param  int $errorNumber - nombre d'erreur attendu
     * @return void
     */
-  public function assertHasErrors(Customer $entity, int $errorNumber): void
+  public function assertHasErrors(User $entity, int $errorNumber): void
   {
       self::bootKernel();
       $error = static::getContainer()->get('validator')->validate($entity);
@@ -39,31 +39,31 @@ class CustomerTest extends KernelTestCase
     $this->assertHasErrors($this->getEntity(), 0);
   }
 
-// TEST NUMBERCUSTOMER VALIDATION
+// TEST NUMBERUser VALIDATION
 
-  public function testShould_invalid_When_numberCustomerIsBlank(): void
+  public function testShould_invalid_When_numberUserIsBlank(): void
   {
-    $this->assertHasErrors($this->getEntity()->setNumberCustomer(''), 2);
+    $this->assertHasErrors($this->getEntity()->setNumberUser(''), 2);
   }
 
-  public function testShould_invalid_When_numberCustomerHaveSpecialCharacter(): void
+  public function testShould_invalid_When_numberUserHaveSpecialCharacter(): void
   {
-    $this->assertHasErrors($this->getEntity()->setNumberCustomer('12_&fs'), 1);
+    $this->assertHasErrors($this->getEntity()->setNumberUser('12_&fs'), 1);
   }
 
-  public function testShould_invalid_When_numberCustomerHaveSpace(): void
+  public function testShould_invalid_When_numberUserHaveSpace(): void
   {
-    $this->assertHasErrors($this->getEntity()->setNumberCustomer('12 fdq'), 1);
+    $this->assertHasErrors($this->getEntity()->setNumberUser('12 fdq'), 1);
   }
 
-  public function testShould_invalid_When_numberCustomerMoreThan6Characters(): void
+  public function testShould_invalid_When_numberUserMoreThan6Characters(): void
   {
-    $this->assertHasErrors($this->getEntity()->setNumberCustomer('123qsdfqsd'), 1);
+    $this->assertHasErrors($this->getEntity()->setNumberUser('123qsdfqsd'), 1);
   }
 
-  public function testShould_invalid_When_numberCustomerDoLessThan6Characters(): void
+  public function testShould_invalid_When_numberUserDoLessThan6Characters(): void
   {
-    $this->assertHasErrors($this->getEntity()->setNumberCustomer('1ab2'), 2);
+    $this->assertHasErrors($this->getEntity()->setNumberUser('1ab2'), 2);
   }
 
 // TEST FIRSTNAME VALIDATION
@@ -132,17 +132,17 @@ class CustomerTest extends KernelTestCase
 
   public function testShould_invalid_When_MailIsBlank():void
   {
-    $this->assertHasErrors($this->getEntity()->setMail(''),1);
+    $this->assertHasErrors($this->getEntity()->setEmail(''),1);
   }
 
   public function testShould_isValid_When_MailIsNormalMail():void
   {
-    $this->assertHasErrors($this->getEntity()->setMail('francois.test@test.com'),0);
+    $this->assertHasErrors($this->getEntity()->setEmail('francois.test@test.com'),0);
   }
 
   public function testShould_invalid_When_MailIsNotNormalMail():void
   {
-    $this->assertHasErrors($this->getEntity()->setMail('francois.test.com'),1);
-    $this->assertHasErrors($this->getEntity()->setMail('francois.test@testcom'),1);
+    $this->assertHasErrors($this->getEntity()->setEmail('francois.test.com'),1);
+    $this->assertHasErrors($this->getEntity()->setEmail('francois.test@testcom'),1);
   }
 }

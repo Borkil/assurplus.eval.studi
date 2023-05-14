@@ -40,9 +40,6 @@ class Sinister
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sinisters')]
-    private ?Customer $customer = null;
-
     #[ORM\OneToMany(mappedBy: 'sinister', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $Images;
 
@@ -51,6 +48,10 @@ class Sinister
         new Assert\Image(mimeTypesMessage: 'Le fichier join n\'est pas une image')
     ])]
     private $imagesFiles;
+
+    #[ORM\ManyToOne(inversedBy: 'sinisters')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $UserCustomer = null;
     
     /**
      * __construct
@@ -116,18 +117,6 @@ class Sinister
         return $this;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Images>
      */
@@ -171,6 +160,18 @@ class Sinister
             $this->addImage($image);
         }
         $this->imagesFiles = $imagesFiles;
+        return $this;
+    }
+
+    public function getUserCustomer(): ?User
+    {
+        return $this->UserCustomer;
+    }
+
+    public function setUserCustomer(?User $UserCustomer): self
+    {
+        $this->UserCustomer = $UserCustomer;
+
         return $this;
     }
 }
