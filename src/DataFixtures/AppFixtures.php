@@ -4,18 +4,21 @@ namespace App\DataFixtures;
 
 
 use Faker\Factory;
-use App\Entity\Customer;
+use App\Entity\User;
 use App\Entity\Sinister;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
     private $faker;
+    private $hasher;
 
-    public function __construct() 
+    public function __construct(UserPasswordHasherInterface $hasher) 
     {
         $this->faker = Factory::create('fr_FR');
+        $this->hasher = $hasher;
     }
 
     //'/^[a-zA_Z]{3}[-][0-9]{3}[-][a-zA_Z]{3}/'
@@ -29,15 +32,25 @@ class AppFixtures extends Fixture
             
             $manager->persist($sinister);
 
-            $customer = new Customer();
-            $customer->setNumberCustomer($this->faker->randomNumber(6, true))
-            ->setFirstname($this->faker->firstName())
-            ->setLastname($this->faker->lastName())
-            ->setMail($this->faker->email())
-            ->setPhoneNumber('0'.$this->faker->randomNumber(9,true))
-            ->addSinister($sinister);
+            $user = (new User())
+                ->setNumberUser($this->faker->randomNumber(6, true))
+                ->setFirstname($this->faker->firstName())
+                ->setLastname($this->faker->lastName())
+                ->setEmail($this->faker->email())
+                ->setPhoneNumber('0'.$this->faker->randomNumber(9,true))
+                ->setRoles(['ROLE_USER'])
+                ->addSinister($sinister);
 
-            $manager->persist($customer);
+            $plainPassword = 'password';
+
+            $hashedPassword = $this->hasher->hashPassword(
+                $user,
+                $plainPassword
+            );
+            $user->setPassword($hashedPassword);
+
+
+            $manager->persist($user);
             
         }
 
