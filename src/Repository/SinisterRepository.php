@@ -39,6 +39,16 @@ class SinisterRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllOrderByCreatedAt():array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s FROM App\Entity\Sinister s ORDER BY s.createdAt DESC'
+        );
+
+        return $query->getResult();
+    }
 //    /**
 //     * @return Sinister[] Returns an array of Sinister objects
 //     */

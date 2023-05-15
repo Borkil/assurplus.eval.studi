@@ -57,7 +57,7 @@ class SinisterController extends AbstractController
                 $mailer->send($email);
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
-                return $this->redirectToRoute('app_home_page');
+                return $this->redirectToRoute('app_user_historique');
             
         }else if($form->isSubmitted() && !$form->isValid()){
             $this->addFlash('danger', 'Il y a des erreurs dans la saisi du formulaire.');

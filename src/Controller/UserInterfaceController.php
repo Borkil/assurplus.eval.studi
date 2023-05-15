@@ -14,7 +14,7 @@ class UserInterfaceController extends AbstractController
     {
         return $this->render('user_interface/index.html.twig', [
             'user' => $this->getUser(),
-            'sinisters' => $sinisterRepository->findAll()
+            'sinisters' => $sinisterRepository->findAllOrderByCreatedAt()
         ]);
     }
 }
