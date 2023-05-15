@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserInterfaceController!{% endblock %}
+
+{% block body %}
+
+
+    <section style="max-width: 800px;" class="container d-flex flex-column justify-content-center align-items-center">
+        {# display a flash message #}
+
+        {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-dismissible alert-{{ label }}">
+                <p> {{ message }} </p>
+            </div>
+        {% endfor %}
+        {% endfor %}
+      <div>
+        <h1 class="mt-4 mb-2">Bienvenue sur votre historique</h1>
+        <p class="mb-2">Vous trouverez ci-dessous l'historique de vos dernieres déclarations de sinistre</p>
+      </div>
+      
+      <div class="d-flex flex-column justify-content-center" style="max-width: 250px;">
+        <a class="btn btn-primary btn-sm" type="button" href="{{ path('form_sinister')}}">Déclarer un sinistre</a>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-center mt-4">
+        {% for sinister in sinisters %}
+        <div class="card border-primary mb-3 me-sm-2" style="max-width: 20rem;">
+            <div class="card-header">Sinistre du {{ sinister.numberRegistration }}</div>
+            <div class="card-body">
+                <h4 class="card-title">{{ sinister.adressOfSinister }}</h4>
+                <p class="card-text">{{ sinister.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+  
+{% endblock %}
