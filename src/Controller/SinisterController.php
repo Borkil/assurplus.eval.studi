@@ -22,6 +22,7 @@ class SinisterController extends AbstractController
     #[Route('/declaration', name: 'form_sinister')]
     public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
+        $user = $this->getUser();
         $form = $this->createForm(SinisterType::class);
         $form->handleRequest($request);
        
@@ -34,26 +35,26 @@ class SinisterController extends AbstractController
             $entityManager->persist($sinister);
             $entityManager->flush();
             
-            // $images = $sinister->getImages();
+            $images = $sinister->getImages();
 
-            // // Envoie de l'email vers assurplus 
-            //     $email = (new TemplatedEmail())
-            //         ->from('admin@assurplus.fr')
-            //         ->to('francois.lalay@hotmail.fr')
-            //         ->subject('test envoie mail')
-            //         ->htmlTemplate('email/email.html.twig')
-            //         ->context([
-            //             'sinister' => $sinister,
-            //             'customer' => 'proute'
-            //         ]);
+            // Envoie de l'email vers assurplus 
+                $email = (new TemplatedEmail())
+                    ->from('admin@assurplus.fr')
+                    ->to('francois.lalay@hotmail.fr')
+                    ->subject('test envoie mail')
+                    ->htmlTemplate('email/email.html.twig')
+                    ->context([
+                        'sinister' => $sinister,
+                        'user' => $user,
+                    ]);
                 
-            //     foreach ($images as $image)
-            //     {
-            //         $email->addPart(new DataPart(new File($image->getImageFile()->getRealPath())));
-            //     }
+                foreach ($images as $image)
+                {
+                    $email->addPart(new DataPart(new File($image->getImageFile()->getRealPath())));
+                }
 
 
-            //     $mailer->send($email);
+                $mailer->send($email);
 
                 $this->addFlash('success', 'Votre déclaration nous a bien été transmise');
                 return $this->redirectToRoute('app_home_page');
