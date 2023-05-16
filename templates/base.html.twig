@@ -21,7 +21,7 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="d-flex justify-content-between">
                         <p class="m-0 align-self-center " style="color: white; font-weight: 700;">{{ app.user.firstname }} {{ app.user.lastname }}</p>
-                        <a class="btn btn-secondary ms-4 " href="{{ path('app_logout')}}" >Déconnection</a>
+                        <a class="btn btn-secondary ms-4 " href="{{ path('app_logout')}}" >Se déconnecter</a>
                     </div>
                 {% endif %}
                 </div>  
